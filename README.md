@@ -61,4 +61,10 @@ The number plate recognition module uses Optical Character Recognition (OCR) tec
 ## Demo of Current Status
 - A demo video has been saved in the Output Folder.
 
-![Alt Text](bike.gif)
+![Alt Text](DEMO/upload.png)
+
+![Alt Text](DEMO/addowner.png)
+
+![Alt Text](DEMO/bike.gif)
+
+![Alt Text](DEMO/notification.jpeg)
