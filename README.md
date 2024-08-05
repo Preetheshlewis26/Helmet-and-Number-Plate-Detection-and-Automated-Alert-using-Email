@@ -59,12 +59,12 @@ The number plate recognition module uses Optical Character Recognition (OCR) tec
 - Interface opens upload video from video folder or any video of your choice
 
 ## Demo of Current Status
-- A demo video has been saved in the Output Folder.
-
+- A demo video has been saved in the DEMO Folder.
+Interface 
 ![Alt Text](DEMO/upload.png)
 
 ![Alt Text](DEMO/addowner.png)
-
+Output
 ![Alt Text](DEMO/bike.gif)
-
+ALert Notification
 ![Alt Text](DEMO/notification.jpeg)
