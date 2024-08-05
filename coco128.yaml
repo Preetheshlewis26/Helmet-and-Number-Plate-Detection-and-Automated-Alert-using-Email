@@ -1,0 +1,6 @@
+train: D:\miniproject1\miniproject1\Real-Time-Detection-of-Helmet-Violations-and-Capturing-Bike-Numbers-from-Number-Plates\images\images\train
+val:  D:\miniproject1\miniproject1\Real-Time-Detection-of-Helmet-Violations-and-Capturing-Bike-Numbers-from-Number-Plates\images\images\val
+
+nc: 4
+
+names: ["with helmet", "without helmet", "rider", "number plate"] 

@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Upload Video</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        :root {
+            --clr-white: rgb(255, 255, 255);
+            --clr-black: rgb(0, 0, 0);
+            --clr-light: rgb(245, 248, 255);
+            --clr-light-gray: rgb(196, 195, 196);
+            --clr-blue: rgb(63, 134, 255);
+            --clr-light-blue: rgb(171, 202, 255);
+        }
+
+        body {
+            background-color: var(--clr-light);
+            color: var(--clr-black);
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        .upload-area {
+            width: 100%;
+            max-width: 25rem;
+            background-color: var(--clr-white);
+            box-shadow: 0 10px 60px rgb(218, 229, 255);
+            border: 2px solid var(--clr-light-blue);
+            border-radius: 24px;
+            padding: 2rem 1.875rem 5rem 1.875rem;
+            margin: 0.625rem;
+            text-align: center;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        form {
+            margin-top: 30px;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        input[type="file"] {
+            margin: 20px 0;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        input[type="submit"],
+        .upload-another {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            text-decoration: none;
+        }
+        
+        input[type="submit"]:hover,
+        .upload-another:hover {
+            background-color: #0056b3;
+        }
+        .upload-another{
+            position: relative;
+            top: 37px;
+        }
+        #video_container {
+            display: none;
+            width: 640px;
+            /* Set your desired width */
+            height: 480px;
+            /* Set your desired height */
+            overflow: hidden;
+            border: 2px solid #000;
+            background-color: #fff;
+        }
+
+        #video_feed {
+            width: 640px;
+            /* Set your desired width */
+            height: 480px;
+
+            object-fit: cover;
+        }
+
+        .upload-another {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="uploadArea" class="upload-area">
+        <h1>Upload your video</h1>
+        <form id="upload_form" action="/upload_video" method="post" enctype="multipart/form-data">
+            <input type="file" name="video" accept="video/*" required>
+            <input type="submit" value="Upload">
+        </form>
+
+        <div id="video_container">
+            <h2>Processing Video...</h2>
+            <img id="video_feed" src="{{ url_for('upload_video') }}" alt="Video feed not available"
+                style="width: 100px; height: 600px;">
+        </div>
+
+        <a href="/add_owner" class="upload-another">Add Vehicle</a>
+    </div>
+
+
+    <script>
+        document.getElementById('upload_form').addEventListener('submit', function (event) {
+            document.getElementById('video_container').innerHTML;
+        });
+    </script>
+</body>
+
+</html>

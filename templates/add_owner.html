@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Add and Search Vehicle Owner</title>
+    <style>
+        /* Add your styles here */
+        :root {
+        --clr-white: rgb(255, 255, 255);
+        --clr-black: rgb(0, 0, 0);
+        --clr-light: rgb(245, 248, 255);
+        --clr-light-gray: rgb(196, 195, 196);
+        --clr-blue: rgb(63, 134, 255);
+        --clr-light-blue: rgb(171, 202, 255);
+        }
+        body {
+            font-family: Arial, sans-serif;
+            background-color: var(--clr-light);
+            color: var(--clr-black);
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.125rem;
+            min-height: 100vh;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+        h1 {
+            color: #333;
+        }
+        form {
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        input[type="text"], input[type="email"], input[type="submit"], button {
+            margin: 10px 0;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            width: 100%;
+            max-width: 300px;
+        }
+        input[type="submit"],button {
+            background-color: #007bff;
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        input[type="submit"]:hover, button:hover {
+            background-color: #0056b3;
+        }
+        #details {
+            margin-top: 20px;
+            background: #f9f9f9;
+            padding: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            width: 100%;
+            max-width: 320px;
+        }
+        .tab {
+            display: none;
+        }
+        .tab.active {
+            display: block;
+        }
+        .tab-buttons {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+        .tab-buttons button {
+            padding: 10px 20px;
+            margin: 0 10px;
+            cursor: pointer;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+        .tab-buttons button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+    <script>
+        function fetchDetails(event) {
+            event.preventDefault();
+            const vehicleNumber = document.querySelector('input[name="search_vehicle_number"]').value.trim();
+            const email = document.querySelector('input[name="search_email"]').value.trim();
+            
+            if (!vehicleNumber || !email) {
+                alert('Please enter both vehicle number and email.');
+                return;
+            }
+
+            console.log('Vehicle Number:', vehicleNumber); // Debug
+            console.log('Email:', email); // Debug
+
+            fetch(`/search_details?vehicle_number=${encodeURIComponent(vehicleNumber)}&email=${encodeURIComponent(email)}`)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok ' + response.statusText);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    console.log('Response Data:', data); // Debug
+                    const detailsDiv = document.getElementById('details');
+                    if (data.found) {
+                        detailsDiv.innerHTML = `
+                            <p>Vehicle Number: ${data.vehicle_number}</p>
+                            <p>Owner Name: ${data.owner_name}</p>
+                            <p>Email: ${data.email}</p>
+                            <p>Phone Number: ${data.phone_number}</p>
+                        `;
+                    } else {
+                        detailsDiv.innerHTML = '<p>No details found.</p>';
+                    }
+                })
+                .catch(error => {
+                    console.error('There was a problem with the fetch operation:', error);
+                    const detailsDiv = document.getElementById('details');
+                    detailsDiv.innerHTML = '<p>Error fetching details. Please try again later.</p>';
+                });
+        }
+
+        function showTab(tabName) {
+            const tabs = document.querySelectorAll('.tab');
+            tabs.forEach(tab => {
+                tab.classList.remove('active');
+            });
+            document.getElementById(tabName).classList.add('active');
+        }
+    </script>
+</head>
+<body>
+    <div class="tab-buttons">
+        <button onclick="showTab('add-tab')">Add Owner</button>
+        <button onclick="showTab('search-tab')">Search Owner</button>
+    </div>
+    <div id="add-tab" class="tab active">
+        <h1>Add Vehicle Owner</h1>
+        <form action="/add_owner" method="post">
+            <input type="text" name="vehicle_number" placeholder="Vehicle Number" required>
+            <input type="text" name="owner_name" placeholder="Owner name" required>
+            <input type="email" name="email" placeholder="Email" required>
+            <input type="text" name="phone_number" placeholder="Phone Number" required>
+            <input type="submit" value="Add Owner">
+        </form>
+    </div>
+    <div id="search-tab" class="tab">
+        <h1>Search Vehicle Owner</h1>
+        <form onsubmit="fetchDetails(event)">
+            <input type="text" name="search_vehicle_number" placeholder="Vehicle Number" required>
+            <input type="email" name="search_email" placeholder="Email" required>
+            <button type="submit">Submit</button>
+        </form>
+        <div id="details">
+            <!-- Details will be displayed here -->
+        </div>
+    </div>
+</body>
+</html>
